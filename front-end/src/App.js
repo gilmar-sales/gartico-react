@@ -5,6 +5,7 @@ import Switch from 'react-switch';
 import usePersistedState from './utils/usePersistedState';
 
 import GlobalStyle from './global';
+import Routes from './Routes'
 
 import light from './styles/themes/light';
 import dark from './styles/themes/dark';
@@ -32,7 +33,8 @@ function App() {
         onColor={theme.colors.secondary}
         />
       </div>
-      <GlobalStyle/>
+      <GlobalStyle />
+      <Routes />
     </ThemeProvider>
   );
 }
