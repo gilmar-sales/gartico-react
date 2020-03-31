@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserCircle, FaPlay, FaGripHorizontal, FaUser, FaUserPlus } from 'react-icons/fa';
 
@@ -8,6 +8,28 @@ import Window from '../../components/Window';
 import {ReactComponent as Logo} from '../../icons/logo.svg';
 
 export default function Home(props) {
+    const [nickname, setNickname] = useState(localStorage.getItem('nickname') ? localStorage.getItem('nickname') : '');
+
+    const renderAuthButton = () =>{
+        if(localStorage.getItem('id')){
+          return (
+          <Link to="/sign-out">
+              <button className="button"><FaUser/>SignOut</button>
+          </Link>);
+        } else{
+          return (
+                <div>
+                <Link to="/sign-in">
+                    <button className="button"><FaUser/>SignIn</button>
+                </Link>
+    
+                <Link to="/sign-up">
+                    <button className="button"><FaUserPlus/> SignUp</button>
+                </Link>
+              </div>
+            );
+        }
+      }
 
     return (
         <div className="container" style={{flexDirection: 'column'}}>
@@ -21,7 +43,9 @@ export default function Home(props) {
                     <NickSection>
                         <label htmlFor="">Select your nick and avatar</label>
                         <FaUserCircle style={{fontSize: 80}} />
-                        <input placeholder="Nickname" value={localStorage.getItem('nickname')} />
+                        <input placeholder="Nickname"
+                        value={ nickname }  
+                        onChange={ (e) => setNickname(e.target.value) } />
 
                         <div className="row">
                             <Link to="/rooms" style={{flex: 1, marginRight: 15}}>
@@ -35,13 +59,7 @@ export default function Home(props) {
                     </NickSection>
 
                     <AuthSection>
-                        <Link to="/sign-in">
-                            <button className="button"><FaUser/>SignIn</button>
-                        </Link>
-            
-                        <Link to="/sign-up">
-                            <button className="button"><FaUserPlus/> SignUp</button>
-                        </Link>
+                        { renderAuthButton() }
                     </AuthSection>
                 </div>
 
