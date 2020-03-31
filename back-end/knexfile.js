@@ -8,6 +8,9 @@ module.exports = {
       database: 'gartico',
       user:     'postgres',
       password: '123456'
+    },
+    migrations: {
+      directory: './src/database/migrations'
     }
   },
 

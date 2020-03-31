@@ -2,19 +2,21 @@ const connection = require('../database/connection');
 
 module.exports = {
     async create(request, response) {
-        const { username, password, nickname } = request.body;
+        const { username, password, nickname, email } = request.body;
 
-        if (await (await connection('users').where({ username: username }).select('id')).length) {
+        if ((await connection('users').where({ username: username }).select('id')).length) {
             return response.status(400).json({ error: 'Username already exists!' });
         }
     
-        await connection('users').insert({
+        const [id] = await connection('users')
+        .returning('id').insert({
             username,
             password,
-            nickname
+            nickname,
+            email
         });
     
-        return response.json({ id: username });
+        return response.json({ id });
     },
 
     async authenticate(request, response) {
